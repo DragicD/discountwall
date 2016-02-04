@@ -38,7 +38,7 @@
     <body>
         <div class="container">
             <div class="content">
-                <div class="title">Laravel 5 from BUD87!!! ili ti Bulut und Dragic :P</div>
+                <div class="title">Laravel 5 from BUD87!!! ili ti Bulut und Dragic :P da li je moguce da ovo radi. kod mene radi</div>
             </div>
         </div>
     </body>
