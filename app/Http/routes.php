@@ -15,6 +15,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::post('/send_place_request', 'PlaceRequestController@index');
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -26,6 +28,18 @@ Route::get('/', function () {
 |
 */
 
-Route::group(['middleware' => ['web']], function () {
-    //
+Route::group(['middleware' => 'web'], function () {
+    Route::auth();
+
+    Route::get('/home', 'HomeController@index');
+
+    Route::get('/countries', function()
+    {
+        return \App\City::getCountriesJson();
+    });
+
+    Route::get('/countries_with_cities', function()
+    {
+        return \App\City::getDataJson();
+    });
 });

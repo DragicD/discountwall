@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Address;
+use App\City;
+use Illuminate\Support\Facades\Input as Input;
 use App\User;
 use Validator;
 use App\Http\Controllers\Controller;
@@ -48,11 +51,17 @@ class AuthController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
-            'name' => 'required|max:255',
+        $validation = [
+            'storeName' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|confirmed|min:6',
-        ]);
+            'logo' => 'image',
+            'website'=> 'url',
+            'country' => 'exists:cities',
+            'city' => 'exists:cities',
+
+        ];
+        return Validator::make($data, $validation);
     }
 
     /**
@@ -63,10 +72,41 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
+        $data['logo'] = null;
+        //moving image in folder logos in public/logos
+        if(Input::hasfile('logo')) {
+            $file = Input::file('logo');
+            //check if file is an image, although we already have image validator, this maybe redundant
+            if(substr($file->getMimeType(), 0, 5) == 'image') {
+                //removing white spaces and adding time so user cannot have images with same name
+                $filename = $name = trim(str_replace(' ', '_', date('Y-m-d H:i:s').$file->getClientOriginalName()));
+                //moving file to public/logos folder
+                $file->move('logos', $filename);
+                $data['logo'] = $filename;
+            }
+        }
+
+
+        $user = User::create([
+            'storeName' => $data['storeName'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'storeDescription' => $data['storeDescription'],
+            'website' => $data['website'],
+            'vat' => $data['vat'],
+            'logo' => $data['logo'],
         ]);
+
+        if(Input::get('city') && Input::get('country') && Input::get('address')){
+            $city = City::where('city', '=', Input::get('city'))->firstOrFail();
+            Address::create([
+                'user_id'=> $user->id,
+                'city_id'=> $city->id,
+                'name'=> $data['address'],
+            ]);
+        }
+
+
+        return $user;
     }
 }
