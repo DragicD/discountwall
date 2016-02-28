@@ -33,6 +33,8 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('/home', 'HomeController@index');
 
+    Route::get('/register/cities', 'Auth\RegisterCitiesController@index');
+
     Route::get('/countries', function()
     {
         return \App\City::getCountriesJson();

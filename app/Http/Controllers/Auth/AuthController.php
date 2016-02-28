@@ -6,6 +6,7 @@ use App\Address;
 use App\City;
 use Illuminate\Support\Facades\Input as Input;
 use App\User;
+use Illuminate\Support\Facades\Redirect;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -41,6 +42,27 @@ class AuthController extends Controller
     public function __construct()
     {
         $this->middleware('guest', ['except' => 'logout']);
+    }
+
+
+
+    public function register(Request $request)
+    {
+        $validator = $this->validator($request->all());
+        if ($validator->fails()) {
+            $this->throwValidationException($request, $validator);
+        }
+        $store_type = Input::get('store_type');
+
+        if($store_type === 'many_cities'){
+            $this->redirectTo = '/register/cities';
+            Input::flash();
+            return redirect($this->redirectPath());
+        }else{
+            Auth::guard($this->getGuard())->login($this->create($request->all()));
+            return redirect($this->redirectPath());
+        }
+
     }
 
     /**
@@ -86,6 +108,12 @@ class AuthController extends Controller
             }
         }
 
+        $inputs = Input::all();
+        foreach($inputs as $key => $input){
+            if(strpos($key,'address') !== false){
+                $addresses[] = $input;
+            }
+        }
 
         $user = User::create([
             'storeName' => $data['storeName'],
@@ -97,16 +125,20 @@ class AuthController extends Controller
             'logo' => $data['logo'],
         ]);
 
-        if(Input::get('city') && Input::get('country') && Input::get('address')){
+        if(Input::get('city') && Input::get('country')){
             $city = City::where('city', '=', Input::get('city'))->firstOrFail();
-            Address::create([
-                'user_id'=> $user->id,
-                'city_id'=> $city->id,
-                'name'=> $data['address'],
-            ]);
+            foreach($addresses as $address){
+                if($address){
+                    Address::create([
+                        'user_id'=> $user->id,
+                        'city_id'=> $city->id,
+                        'name'=> $address,
+                    ]);
+                }
+            }
         }
 
-
         return $user;
+
     }
 }

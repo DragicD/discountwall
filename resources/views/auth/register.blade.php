@@ -122,54 +122,55 @@
                             </div>
                         </div>
 
+                        <label class="col-md-4 control-label">Select type of your store</label>
+                        <select id="store_type" name="store_type">
+                            <option value="online">Online store</option>
+                            <option value="one_city">Store/stores in one city</option>
+                            <option value="many_cities">Stores in many cities</option>
+                        </select>
 
-                        <div class="form-group{{ $errors->has('country') ? ' has-error' : '' }}">
-                            <label class="col-md-4 control-label">Country</label>
+                        <div class="address_div">
+                            <div class="form-group{{ $errors->has('country') ? ' has-error' : '' }}">
+                                <label class="col-md-4 control-label">Country</label>
 
-                            <div class="col-md-6">
-                                <input id = 'country_input' type="text" class="form-control" name="country" value="{{ old('country') }}">
+                                <div class="col-md-6">
+                                    <input id = 'country_input' type="text" class="form-control" name="country" value="{{ old('country') }}">
 
-                                @if ($errors->has('country'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('country') }}</strong>
-                                    </span>
-                                @endif
+                                    @if ($errors->has('country'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('country') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
                             </div>
-                        </div>
 
 
-                        <div class="form-group{{ $errors->has('city') ? ' has-error' : '' }}">
-                            <label class="col-md-4 control-label">City</label>
+                            <div class="form-group{{ $errors->has('city') ? ' has-error' : '' }}">
+                                <label class="col-md-4 control-label">City</label>
 
-                            <div class="col-md-6">
-                                <input id = "city_input" type="text" class="form-control" name="city" value="{{ old('city') }}">
+                                <div class="col-md-6">
+                                    <input id = "city_input" type="text" class="form-control" name="city" value="{{ old('city') }}">
 
-                                @if ($errors->has('city'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('city') }}</strong>
-                                    </span>
-                                @endif
+                                    @if ($errors->has('city'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('city') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group{{ $errors->has('address') ? ' has-error' : '' }}">
+
                             <label class="col-md-4 control-label">Address name and number</label>
-
-                            <div class="col-md-6">
+                            <div class="col-md-6 address_name_and_number">
                                 <input type="text" class="form-control" name="address" value="{{ old('address') }}">
-
-                                @if ($errors->has('address'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('address') }}</strong>
-                                    </span>
-                                @endif
                             </div>
-                        </div>
 
 
-                        <label class="col-md-4 control-label">Add new address</label>
-                        <div class="col-md-6">
-                            <button id = 'new_address_button' type="button">+</button>
+
+                            <label class="col-md-4 control-label">Add new address</label>
+                            <div class="col-md-6">
+                                <button id = 'new_address_button' type="button">+</button>
+                            </div>
                         </div>
 
                         <div class="form-group">
