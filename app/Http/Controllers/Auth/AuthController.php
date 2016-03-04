@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Address;
 use App\City;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input as Input;
 use App\User;
 use Illuminate\Support\Facades\Redirect;
@@ -11,6 +12,7 @@ use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Illuminate\Http\Request as Request;
 
 class AuthController extends Controller
 {
@@ -44,8 +46,6 @@ class AuthController extends Controller
         $this->middleware('guest', ['except' => 'logout']);
     }
 
-
-
     public function register(Request $request)
     {
         $validator = $this->validator($request->all());
@@ -56,7 +56,14 @@ class AuthController extends Controller
 
         if($store_type === 'many_cities'){
             $this->redirectTo = '/register/cities';
-            Input::flash();
+            $request->session()->put('storeName', Input::get('storeName'));
+            $request->session()->put('email', Input::get('email'));
+            $request->session()->put('password', Input::get('password'));
+            $request->session()->put('storeDescription', Input::get('storeDescription'));
+            $request->session()->put('website', Input::get('website'));
+            $request->session()->put('vat', Input::get('vat'));
+            //store image in test folder in server and move if its complete
+            $request->session()->put('logo', $this->checkFileAndMove('not_finished_reg_logos'));
             return redirect($this->redirectPath());
         }else{
             Auth::guard($this->getGuard())->login($this->create($request->all()));
@@ -74,16 +81,31 @@ class AuthController extends Controller
     protected function validator(array $data)
     {
         $validation = [
-            'storeName' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|confirmed|min:6',
-            'logo' => 'image',
-            'website'=> 'url',
-            'country' => 'exists:cities',
-            'city' => 'exists:cities',
+            //'storeName' => 'required|max:255',
+            //'email' => 'required|email|max:255|unique:users',
+            //'password' => 'required|confirmed|min:6',
+            //'logo' => 'image',
+            //'website'=> 'url',
+            //'country' => 'exists:cities',
+            //'city' => 'exists:cities',
 
         ];
         return Validator::make($data, $validation);
+    }
+
+    protected function checkFileAndMove($directory){
+        $filename = null;
+        if(Input::hasfile('logo')) {
+            $file = Input::file('logo');
+            //check if file is an image, although we already have image validator, this maybe redundant
+            if(substr($file->getMimeType(), 0, 5) == 'image') {
+                //removing white spaces and adding time so user cannot have images with same name
+                $filename = $name = trim(str_replace(' ', '_', date('Y-m-d H:i:s').$file->getClientOriginalName()));
+                //moving file to public/logos folder
+                $file->move($directory, $filename);
+            }
+        }
+        return $filename;
     }
 
     /**
@@ -94,21 +116,12 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-        $data['logo'] = null;
-        //moving image in folder logos in public/logos
-        if(Input::hasfile('logo')) {
-            $file = Input::file('logo');
-            //check if file is an image, although we already have image validator, this maybe redundant
-            if(substr($file->getMimeType(), 0, 5) == 'image') {
-                //removing white spaces and adding time so user cannot have images with same name
-                $filename = $name = trim(str_replace(' ', '_', date('Y-m-d H:i:s').$file->getClientOriginalName()));
-                //moving file to public/logos folder
-                $file->move('logos', $filename);
-                $data['logo'] = $filename;
-            }
-        }
+
+        $data['logo'] = $this->checkFileAndMove('logos');
+
 
         $inputs = Input::all();
+        dd($inputs);
         foreach($inputs as $key => $input){
             if(strpos($key,'address') !== false){
                 $addresses[] = $input;

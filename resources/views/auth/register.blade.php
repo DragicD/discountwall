@@ -130,20 +130,6 @@
                         </select>
 
                         <div class="address_div">
-                            <div class="form-group{{ $errors->has('country') ? ' has-error' : '' }}">
-                                <label class="col-md-4 control-label">Country</label>
-
-                                <div class="col-md-6">
-                                    <input id = 'country_input' type="text" class="form-control" name="country" value="{{ old('country') }}">
-
-                                    @if ($errors->has('country'))
-                                        <span class="help-block">
-                                            <strong>{{ $errors->first('country') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
-
 
                             <div class="form-group{{ $errors->has('city') ? ' has-error' : '' }}">
                                 <label class="col-md-4 control-label">City</label>
@@ -162,7 +148,7 @@
 
                             <label class="col-md-4 control-label">Address name and number</label>
                             <div class="col-md-6 address_name_and_number">
-                                <input type="text" class="form-control" name="address" value="{{ old('address') }}">
+                                <input type="text" class="form-control address_input_class main_address_input_class" name="address" value="{{ old('address') }}">
                             </div>
 
 

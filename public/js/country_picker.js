@@ -5,7 +5,8 @@
 $(document).ready(function(){
     var root = location.protocol + '//' + location.host;
 
-    json_countries = (function () {
+    //this method returns all countries, I dont need him but I will leave it just in case
+    /*json_countries = (function () {
         var json_countries = null;
         jQuery.ajax({
             'async': false,
@@ -17,7 +18,7 @@ $(document).ready(function(){
             }
         });
         return json_countries;
-    })();//json_countries
+    })();//json_countries*/
 
     json_cities = (function () {
         var json_cities = null;
@@ -33,35 +34,15 @@ $(document).ready(function(){
         return json_cities;
     })();//json_countries
 
-    //**************************************************
-    var countries = [];
-
-    for( var k in json_countries){
-        var country = json_countries[k]['country'];
-        countries.push(country);
-    }
-
-    $( "#country_input" ).autocomplete({
-        source: countries
-    });
-
-    //**************************************************
 
     $( "#city_input" ).on('click focus', function(){
 
         var cities = [];
         var country_input = $('#country_input').val();
         for( var j in json_cities){
-            if(!country_input){
-                var city = json_cities[j]['city'];
-                cities.push(city);
-            }else{
-                var city = json_cities[j]['city'];
-                if(json_cities[j]['country'] === country_input){
-                    cities.push(city);
-                }
-            }
-
+            var country = json_cities[j]['country'];
+            var city = json_cities[j]['city'];
+            cities.push(city+', '+country);
         }
 
         $( "#city_input" ).autocomplete({
