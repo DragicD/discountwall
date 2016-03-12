@@ -17,7 +17,7 @@
 
                                     <div class="col-md-6">
                                         <!--<input type="text" class="form-control city_input" name="city" value="{{ old('city') }}">-->
-                                        <input type="text" class="form-control city_input" name="city" value="{{ old('city') }}">
+                                        <input type="text" class="form-control city_input" name="city[0][name]" value="{{ old('city') }}">
 
                                         @if ($errors->has('city'))
                                             <span class="help-block">
@@ -30,14 +30,14 @@
 
                                 <label class="col-md-4 control-label">Address name and number</label>
                                 <div class="col-md-6 address_name_and_number">
-                                    <input type="text" class="form-control" name="address" value="{{ old('address') }}">
+                                    <input type="text" class="form-control" name="city[0][address][0]" value="{{ old('address') }}">
                                 </div>
 
 
 
                                 <label class="col-md-4 control-label">Add new address</label>
                                 <div class="col-md-6">
-                                    <button class = 'new_address_button' type="button">+</button>
+                                    <button name="0" class = 'new_address_button' type="button">+</button>
                                 </div>
                             </div>
 

@@ -29,9 +29,9 @@ $(document).ready(function(){
 
     var i = 1;
 
-
     $( ".panel-body" ).on("click",".new_address_button", function(){
-        var div_address = '<label class="col-md-4 control-label">Address name and number</label><div class="col-md-6 address_name_and_number'+i+'"> <input type="text" class="form-control address_input_class" name="address'+i+'" > <button class = "remove_address_button" type="button">-</button></div>';
+        var name = $(this).attr('name');
+        var div_address = '<label class="col-md-4 control-label">Address name and number</label><div class="col-md-6 address_name_and_number'+i+'"> <input type="text" class="form-control address_input_class" name="city['+name+'][address][]" > <button class = "remove_address_button" type="button">-</button></div>';
         $(this).parent().prev().before(div_address);
         i++;
     });
@@ -54,21 +54,14 @@ $(document).ready(function(){
 
     var j = 1;
     $( "#new_city_button" ).click(function(){
-       /* var div_city ='<div class="multi_address_div"> <div class="form-group{{ $errors->has("city") ? " has-error" : "" }}"> <label class="col-md-4 control-label">City</label> <div class="col-md-6"> <input type="text" class="form-control city_input" name="city'+j+'">';
-        div_city += '<span class="help-block"> </span> </div> </div>';
-        div_city += '<label class="col-md-4 control-label">Address name and number</label> <div class="col-md-6 address_name_and_number'+j+'">';
-        div_city += '<input type="text" class="form-control" name="address'+i+'"> </div>';
-        div_city += '<label class="col-md-4 control-label">Add new address</label>  <div class="col-md-6">';
-        div_city += '<button class = "new_address_button" type="button">+</button></div>';
-        div_city += '<button class = "delete_city_with_address" type="button">Delete address for this city</button> </div>';*/
 
-         var div_city ='<div class="multi_address_div"> <div class="form-group{{ $errors->has("city") ? " has-error" : "" }}"> <label class="col-md-4 control-label">City</label> <div class="col-md-6"> <input type="text" class="form-control city_input" name="city">';
+         var div_city ='<div class="multi_address_div"> <div class="form-group{{ $errors->has("city") ? " has-error" : "" }}"> <label class="col-md-4 control-label">City</label> <div class="col-md-6"> <input type="text" class="form-control city_input" name="city['+j+'][name]">';
          div_city += '<span class="help-block"> </span> </div> </div>';
          div_city += '<label class="col-md-4 control-label">Address name and number</label> <div class="col-md-6 address_name_and_number'+j+'">';
-         div_city += '<input type="text" class="form-control" name="address'+i+'"> </div>';
+         div_city += '<input type="text" class="form-control" name="city['+j+'][address][0]"> </div>';
          div_city += '<label class="col-md-4 control-label">Add new address</label>  <div class="col-md-6">';
-         div_city += '<button class = "new_address_button" type="button">+</button></div>';
-         div_city += '<button class = "delete_city_with_address" type="button">Delete address for this city</button> </div>';
+         div_city += '<button name="'+j+'" class = "new_address_button" type="button">+</button></div>';
+         div_city += '<button  class = "delete_city_with_address" type="button">Delete address for this city</button> </div>';
 
         $("#new_city_button").parent().before(div_city);
         j++;
