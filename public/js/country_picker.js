@@ -35,17 +35,34 @@ $(document).ready(function(){
     })();//json_countries
 
 
-    $( "#city_input" ).on('click focus', function(){
+    $( ".address_div" ).on('click focus', ".city_input", function(){
 
         var cities = [];
-        var country_input = $('#country_input').val();
+
         for( var j in json_cities){
             var country = json_cities[j]['country'];
             var city = json_cities[j]['city'];
             cities.push(city+', '+country);
         }
 
-        $( "#city_input" ).autocomplete({
+        $( ".city_input" ).autocomplete({
+            source: cities
+        });
+
+    });
+
+    $( ".form-horizontal" ).on('click focus', ".city_input", function(){
+
+        console.log('click');
+        var cities = [];
+
+        for( var j in json_cities){
+            var country = json_cities[j]['country'];
+            var city = json_cities[j]['city'];
+            cities.push(city+', '+country);
+        }
+
+        $( ".city_input" ).autocomplete({
             source: cities
         });
 

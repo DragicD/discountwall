@@ -35,6 +35,8 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('/register/cities', 'Auth\RegisterCitiesController@index');
 
+    Route::post('/register/cities', 'Auth\RegisterCitiesController@register');
+
     Route::get('/countries', function()
     {
         return \App\City::getCountriesJson();

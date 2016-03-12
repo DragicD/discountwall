@@ -135,7 +135,7 @@
                                 <label class="col-md-4 control-label">City</label>
 
                                 <div class="col-md-6">
-                                    <input id = "city_input" type="text" class="form-control" name="city" value="{{ old('city') }}">
+                                    <input type="text" class="form-control city_input" name="city" value="{{ old('city') }}">
 
                                     @if ($errors->has('city'))
                                         <span class="help-block">
@@ -155,7 +155,7 @@
 
                             <label class="col-md-4 control-label">Add new address</label>
                             <div class="col-md-6">
-                                <button id = 'new_address_button' type="button">+</button>
+                                <button class = 'new_address_button' type="button">+</button>
                             </div>
                         </div>
 

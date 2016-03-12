@@ -16,11 +16,12 @@
                                     <label class="col-md-4 control-label">City</label>
 
                                     <div class="col-md-6">
-                                        <input id = "city_input" type="text" class="form-control" name="city" value="{{ old('city') }}">
+                                        <!--<input type="text" class="form-control city_input" name="city" value="{{ old('city') }}">-->
+                                        <input type="text" class="form-control city_input" name="city" value="{{ old('city') }}">
 
                                         @if ($errors->has('city'))
                                             <span class="help-block">
-                                            <strong>{{ $errors->first('city') }}</strong>
+                                            <strong>{{ $errors->first('city[0]') }}</strong>
                                         </span>
                                         @endif
                                     </div>
@@ -72,16 +73,16 @@
                         </div>
                     </div>
 
-                    <div class="form-group{{ $errors->has('city') ? ' has-error' : '' }}">
+                    <div class="form-group{{ $errors->has('city_input_request') ? ' has-error' : '' }}">
                         {!! csrf_field() !!}
                         <label class="col-md-4 control-label">City</label>
 
                         <div class="col-md-6">
-                            <input id = "city_input_request" type="text" class="form-control" name="city" value="{{ old('city') }}">
+                            <input id = "city_input_request" type="text" class="form-control" name="city_input_request" value="">
 
-                            @if ($errors->has('city'))
+                            @if ($errors->has('city_input_request'))
                                 <span class="help-block">
-                                        <strong>{{ $errors->first('city') }}</strong>
+                                        <strong>{{ $errors->first('city_input_request') }}</strong>
                                     </span>
                             @endif
                         </div>
@@ -95,4 +96,5 @@
                 <div class="place_request_div">
                 </div>
             </div>
+            <noscript>Sorry, your browser does not support JavaScript, because of this you will not be able to create more than one city or address</noscript>
 @endsection

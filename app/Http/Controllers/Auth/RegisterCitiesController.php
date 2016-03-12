@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Address;
-use App\City;
+use App\City as City;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input as Input;
@@ -30,6 +30,52 @@ class RegisterCitiesController extends Controller
     public function index(Request $request)
     {
 
+        return view('auth.registerCities');
+    }
+
+    protected function validator(array $data)
+    {
+        $validation = array();
+        /*foreach($data as $key =>$value){
+            if(strpos($key,'city') !== false){
+                //$validation[$key] = 'exists:cities';
+                $validation[$key] = 'required';
+            }
+        }*/
+
+        $validation = [
+            //'storeName' => 'required|max:255',
+            //'email' => 'required|email|max:255|unique:users',
+            //'password' => 'required|confirmed|min:6',
+            //'logo' => 'image',
+            //'website'=> 'url',
+            //'country' => 'exists:cities',
+            //'city' => 'exists:cities',
+            //'address.*.city' => 'required',
+
+
+        ];
+
+        return Validator::make($data, $validation);
+    }
+
+    public function register(Request $request){
+
+        $all = $request->all();
+        dd($all);
+        foreach($all as $key => $val){
+            if($key === 'city'){
+                foreach($val as $v){
+                    echo $v;
+                }
+            }
+        }
+        die;
+        $validator = $this->validator($request->all());
+        $validator->each('city', ['required']);
+        if ($validator->fails()) {
+            $this->throwValidationException($request, $validator);
+        }
 
         $data['storeName'] = $request->session()->get('storeName');
         $data['email'] = $request->session()->get('email');
@@ -39,9 +85,20 @@ class RegisterCitiesController extends Controller
         $data['vat'] = $request->session()->get('vat');
         $data['logo'] = $request->session()->get('logo');
 
-        //$this->create($data, $request);
+        $inputs = Input::all();
+        dd($inputs);
+        $cities_and_adresses = array();
+        $city = null;
+        /*foreach($inputs as $key => $input){
+            if(strpos($key,'city') !== false){
+                $city = $input;
+            }
 
-        return view('auth.registerCities');
+            if(strpos($key,'address') !== false){
+                $cities_and_adresses[$city][] = $input;
+            }
+        }*/
+        $this->create($data, $cities_and_adresses);
     }
 
     /**
@@ -50,23 +107,15 @@ class RegisterCitiesController extends Controller
      * @param  array  $data
      * @return User
      */
-    protected function create(array $data, Request $request)
+    protected function create(array $data, $cities_and_adresses)
     {
         $data['logo'] = null;
-
+        dd('proslo do create');
         //moving image in folder logos in public/logos
 
-        if($request->session()->get('logo')!==null){
-            File::copy('not_finished_reg_logos/'.$request->session()->get('logo'), 'logos/'.$request->session()->get('logo'));
+        if($data['logo']!==null){
+            File::copy('not_finished_reg_logos/'.$data['logo'], 'logos/'.$data['logo']);
         }
-        dd('create die');
-
-        /*$inputs = Input::all();
-        foreach($inputs as $key => $input){
-            if(strpos($key,'address') !== false){
-                $addresses[] = $input;
-            }
-        }*/
 
         $user = User::create([
             'storeName' => $data['storeName'],
@@ -78,8 +127,11 @@ class RegisterCitiesController extends Controller
             'logo' => $data['logo'],
         ]);
 
-        /*if(Input::get('city') && Input::get('country')){
-            $city = City::where('city', '=', Input::get('city'))->firstOrFail();
+        foreach($cities_and_adresses as $key => $addresses){
+
+            $city_name = explode(',',$key)[0];
+            $city = City::where('city', '=', $city_name)->firstOrFail();
+
             foreach($addresses as $address){
                 if($address){
                     Address::create([
@@ -89,7 +141,7 @@ class RegisterCitiesController extends Controller
                     ]);
                 }
             }
-        }*/
+        }
 
         return $user;
 
