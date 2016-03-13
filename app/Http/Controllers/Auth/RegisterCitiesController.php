@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Address;
 use App\City as City;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input as Input;
 use App\User;
@@ -21,6 +22,8 @@ class RegisterCitiesController extends Controller
     {
         $this->middleware('auth');
     }*/
+
+    protected $redirectTo = '/home';
 
     /**
      * Show the application dashboard.
@@ -76,7 +79,9 @@ class RegisterCitiesController extends Controller
 
         $inputs = $request->all();
         $cities = $inputs['city'];
-        $this->create($data, $cities);
+
+        Auth::guard($this->getGuard())->login($this->create($data, $cities));
+        return redirect($this->redirectTo);
     }
 
     /**
@@ -124,5 +129,10 @@ class RegisterCitiesController extends Controller
 
         return $user;
 
+    }
+
+    protected function getGuard()
+    {
+        return property_exists($this, 'guard') ? $this->guard : null;
     }
 }
