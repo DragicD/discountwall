@@ -11,9 +11,9 @@ $(document).ready(function(){
         $('.address_input_class:not(.main_address_input_class)').remove();
     }
 
-    $( ".address_div").hide();
+    $( ".address_div_js").hide();
 
-    $('#store_type').change(function(){
+    $('.store_type_js').change(function(){
         if($(this).val() == 'online'){
             $( ".address_div").hide();
             $('#city_input').val('');

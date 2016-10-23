@@ -122,19 +122,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Select type of your store</label>
-                            
-                            <div class="col-md-6">
-                                <select class="store_type btn btn-default" name="store_type">
-                                    <option value="online">Online store</option>
-                                    <option value="one_city">Store/stores in one city</option>
-                                    <option value="many_cities">Stores in many cities</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="address_div">
+                        <div class="address_div address_div_js">
 
                             <div class="form-group{{ $errors->has('city') ? ' has-error' : '' }}">
                                 <label class="col-md-4 control-label">City</label>
@@ -156,8 +144,6 @@
                                 <input type="text" class="form-control address_input_class main_address_input_class" name="address" value="{{ old('address') }}">
                             </div>
 
-
-
                             <label class="col-md-4 control-label">Add new address</label>
                             <div class="col-md-6">
                                 <button class = 'new_address_button' type="button">+</button>
@@ -167,7 +153,7 @@
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary pull-right">
-                                    <i class="fa fa-btn fa-user"></i>Register
+                                    <i class="fa fa-btn fa-user"></i>Proceed to adding adresses
                                 </button>
                             </div>
                         </div>
@@ -175,44 +161,6 @@
                 </div>
             </div>
         </div>
-
-        <div class="place_request_div">
-            <form class="form-horizontal" role="form" method="POST" enctype="multipart/form-data" action="{{ url('/send_place_request') }}">
-                <div class="form-group{{ $errors->has('country') ? ' has-error' : '' }}">
-                    <label class="col-md-4 control-label">Country</label>
-
-                    <div class="col-md-6">
-                        <input id = 'country_input_request' type="text" class="form-control" name="country" value="{{ old('country') }}">
-
-                        @if ($errors->has('country'))
-                            <span class="help-block">
-                                        <strong>{{ $errors->first('country') }}</strong>
-                                    </span>
-                        @endif
-                    </div>
-                </div>
-
-                <div class="form-group{{ $errors->has('city') ? ' has-error' : '' }}">
-                    {!! csrf_field() !!}
-                    <label class="col-md-4 control-label">City</label>
-
-                    <div class="col-md-6">
-                        <input id = "city_input_request" type="text" class="form-control" name="city" value="{{ old('city') }}">
-
-                        @if ($errors->has('city'))
-                            <span class="help-block">
-                                        <strong>{{ $errors->first('city') }}</strong>
-                                    </span>
-                        @endif
-                    </div>
-                </div>
-
-                <label class="col-md-4 control-label">Send request for city or country</label>
-                <div class="col-md-6">
-                    <button id = 'place_request_button'>Send place request</button>
-                </div>
-            </form>
-         <div class="place_request_div">
     </div>
 </div>
 @endsection

@@ -18,12 +18,12 @@ use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 class RegisterCitiesController extends Controller
 {
 
-  /*  public function __construct()
+    public function __construct()
     {
         $this->middleware('auth');
-    }*/
+    }
 
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/profile';
 
     /**
      * Show the application dashboard.
@@ -47,11 +47,6 @@ class RegisterCitiesController extends Controller
         }*/
 
         $validation = [
-            //'storeName' => 'required|max:255',
-            //'email' => 'required|email|max:255|unique:users',
-            //'password' => 'required|confirmed|min:6',
-            //'logo' => 'image',
-            //'website'=> 'url',
             //'country' => 'exists:cities',
             //'city' => 'exists:cities',
             //'address.*.city' => 'required',
@@ -69,18 +64,10 @@ class RegisterCitiesController extends Controller
             $this->throwValidationException($request, $validator);
         }*/
 
-        $data['storeName'] = $request->session()->get('storeName');
-        $data['email'] = $request->session()->get('email');
-        $data['password'] = $request->session()->get('password');
-        $data['storeDescription'] = $request->session()->get('storeDescription');
-        $data['website'] = $request->session()->get('website');
-        $data['vat'] = $request->session()->get('vat');
-        $data['logo'] = $request->session()->get('logo');
-
         $inputs = $request->all();
         $cities = $inputs['city'];
 
-        Auth::guard($this->getGuard())->login($this->create($data, $cities));
+        Auth::guard($this->getGuard())->login($this->create($cities));
         return redirect($this->redirectTo);
     }
 
@@ -90,25 +77,9 @@ class RegisterCitiesController extends Controller
      * @param  array  $data
      * @return User
      */
-    protected function create(array $data, $cities)
+    protected function create($cities)
     {
-        $data['logo'] = null;
-
-        //moving image in folder logos in public/logos
-
-        if($data['logo']!==null){
-            File::copy('not_finished_reg_logos/'.$data['logo'], 'logos/'.$data['logo']);
-        }
-
-        $user = User::create([
-            'storeName' => $data['storeName'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-            'storeDescription' => $data['storeDescription'],
-            'website' => $data['website'],
-            'vat' => $data['vat'],
-            'logo' => $data['logo'],
-        ]);
+        $user = Auth::user();
 
         foreach($cities as $city){
             $city_name = explode(',',$city['name'])[0];
@@ -124,11 +95,9 @@ class RegisterCitiesController extends Controller
                     }
                 }
             }
-
         }
 
         return $user;
-
     }
 
     protected function getGuard()
