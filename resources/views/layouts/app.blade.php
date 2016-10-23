@@ -71,7 +71,7 @@
                         </li>
                         @if ( Auth::user()->logo)
                             <li>
-                                <a href="#"><img src="logos/{{Auth::user()->logo}}" style="height: 50px; width: 50px"></a>
+                                <a href="#"><img src="/logos/{{Auth::user()->logo}}" style="height: 50px; width: 50px"></a>
                             </li>
                         @endif
                     @endif
