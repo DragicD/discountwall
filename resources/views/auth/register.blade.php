@@ -112,7 +112,7 @@
                             <label class="col-md-4 control-label">Upload logo</label>
 
                             <div class="col-md-6">
-                                <input type="file" id="logo" name="logo">
+                                <input class="control-label" type="file" id="logo" name="logo">
 
                                 @if ($errors->has('logo'))
                                     <span class="help-block">
@@ -122,12 +122,17 @@
                             </div>
                         </div>
 
-                        <label class="col-md-4 control-label">Select type of your store</label>
-                        <select id="store_type" name="store_type">
-                            <option value="online">Online store</option>
-                            <option value="one_city">Store/stores in one city</option>
-                            <option value="many_cities">Stores in many cities</option>
-                        </select>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Select type of your store</label>
+                            
+                            <div class="col-md-6">
+                                <select class="store_type btn btn-default" name="store_type">
+                                    <option value="online">Online store</option>
+                                    <option value="one_city">Store/stores in one city</option>
+                                    <option value="many_cities">Stores in many cities</option>
+                                </select>
+                            </div>
+                        </div>
 
                         <div class="address_div">
 
@@ -161,7 +166,7 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-primary pull-right">
                                     <i class="fa fa-btn fa-user"></i>Register
                                 </button>
                             </div>
