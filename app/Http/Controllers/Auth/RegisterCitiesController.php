@@ -81,11 +81,11 @@ class RegisterCitiesController extends Controller
     {
         $user = Auth::user();
 
-        foreach($cities as $city){
+        foreach ($cities as $city){
             $city_name = explode(',',$city['name'])[0];
-            if($city_name){
+            if ($city_name) {
                 $city_object = City::where('city', '=', $city_name)->firstOrFail();
-                foreach($city['address'] as $address){
+                foreach ($city['address'] as $address) {
                     if($address){
                         Address::create([
                             'user_id'=> $user->id,
