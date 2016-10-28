@@ -66,7 +66,12 @@
 
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="{{ url('/profile/edit') }}"><i class="fa fa-btn fa-sign-out"></i>Edit profile</a></li>
-                                <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
+                                <li><a href="{{ url('/logout') }}"
+                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-btn fa-sign-out"></i> Logout
+                                </a></li>
+                                <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                </form>
                             </ul>
                         </li>
                         @if ( Auth::user()->logo)

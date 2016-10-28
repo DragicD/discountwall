@@ -2,32 +2,26 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Address;
-use App\City;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Input as Input;
 use App\User;
-use Illuminate\Support\Facades\Redirect;
-use Validator;
+use Illuminate\Support\Facades\Input as Input;
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\ThrottlesLogins;
-use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
-use Illuminate\Http\Request as Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
-class AuthController extends Controller
+class RegisterController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
-    | Registration & Login Controller
+    | Register Controller
     |--------------------------------------------------------------------------
     |
-    | This controller handles the registration of new users, as well as the
-    | authentication of existing users. By default, this controller uses
-    | a simple trait to add these behaviors. Why don't you explore it?
+    | This controller handles the registration of new users as well as their
+    | validation and creation. By default this controller uses a trait to
+    | provide this functionality without requiring any additional code.
     |
     */
 
-    use AuthenticatesAndRegistersUsers, ThrottlesLogins;
+    use RegistersUsers;
 
     /**
      * Where to redirect users after login / registration.
@@ -37,25 +31,13 @@ class AuthController extends Controller
     protected $redirectTo = '/register/cities';
 
     /**
-     * Create a new authentication controller instance.
+     * Create a new controller instance.
      *
      * @return void
      */
     public function __construct()
     {
-        $this->middleware('guest', ['except' => 'logout']);
-    }
-
-    public function register(Request $request)
-    {
-        $validator = $this->validator($request->all());
-
-        if ($validator->fails()) {
-            $this->throwValidationException($request, $validator);
-        }
-        Auth::guard($this->getGuard())->login($this->create($request->all()));
-
-        return redirect($this->redirectPath());
+        $this->middleware('guest');
     }
 
     /**
@@ -67,13 +49,13 @@ class AuthController extends Controller
     protected function validator(array $data)
     {
         $validation = [
-        /*    'storeName' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|confirmed|min:6',
-            'logo' => 'image',
-            'website'=> 'url',
-            'country' => 'exists:cities',
-            'city' => 'exists:cities'*/
+            /*    'storeName' => 'required|max:255',
+                'email' => 'required|email|max:255|unique:users',
+                'password' => 'required|confirmed|min:6',
+                'logo' => 'image',
+                'website'=> 'url',
+                'country' => 'exists:cities',
+                'city' => 'exists:cities'*/
         ];
         return Validator::make($data, $validation);
     }
@@ -114,6 +96,5 @@ class AuthController extends Controller
         ]);
 
         return $user;
-
     }
 }

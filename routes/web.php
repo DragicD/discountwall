@@ -15,6 +15,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Auth::routes();
+
 Route::post('/send_place_request', 'PlaceRequestController@index');
 
 /*
@@ -51,3 +53,4 @@ Route::group(['middleware' => 'web'], function () {
         return \App\City::getDataJson();
     });
 });
+
