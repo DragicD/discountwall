@@ -91,6 +91,8 @@ class RegisterCitiesController extends Controller
                             'user_id'=> $user->id,
                             'city_id'=> $city_object->id,
                             'name'=> $address,
+                            'lat'=> "111",
+                            'lng'=> "22222",
                         ]);
                     }
                 }
