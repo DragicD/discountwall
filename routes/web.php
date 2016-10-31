@@ -39,6 +39,10 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('/profile/edit', 'ProfileEditController@index');
 
+    Route::put('/profile/update', 'ProfileEditController@update');
+
+    Route::post('/profile/post/create', 'ProfileController@create');
+
     Route::get('/register/cities', 'Auth\RegisterCitiesController@index');
 
     Route::post('/register/cities', 'Auth\RegisterCitiesController@register');

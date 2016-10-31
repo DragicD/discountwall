@@ -76,7 +76,7 @@
                         </li>
                         @if ( Auth::user()->logo)
                             <li>
-                                <a href="#"><img src="/logos/{{Auth::user()->logo}}" style="height: 50px; width: 50px"></a>
+                                <a href="/profile"><img src="/logos/{{Auth::user()->logo}}" style="height: 50px; width: 50px"></a>
                             </li>
                         @endif
                     @endif
@@ -93,6 +93,7 @@
     <script src="https://code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>
     <script type="text/javascript" src="{!!asset('js/country_picker.js')!!}"></script>
     <script type="text/javascript" src="{!!asset('js/new_address.js')!!}"></script>
+    <script type="text/javascript" src="{!!asset('js/posts.js')!!}"></script>
 
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
 </body>

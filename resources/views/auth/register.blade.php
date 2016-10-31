@@ -122,34 +122,6 @@
                             </div>
                         </div>
 
-                        <div class="address_div address_div_js">
-
-                            <div class="form-group{{ $errors->has('city') ? ' has-error' : '' }}">
-                                <label class="col-md-4 control-label">City</label>
-
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control city_input" name="city" value="{{ old('city') }}">
-
-                                    @if ($errors->has('city'))
-                                        <span class="help-block">
-                                            <strong>{{ $errors->first('city') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
-
-
-                            <label class="col-md-4 control-label">Address name and number</label>
-                            <div class="col-md-6 address_name_and_number">
-                                <input type="text" class="form-control address_input_class main_address_input_class" name="address" value="{{ old('address') }}">
-                            </div>
-
-                            <label class="col-md-4 control-label">Add new address</label>
-                            <div class="col-md-6">
-                                <button class = 'new_address_button' type="button">+</button>
-                            </div>
-                        </div>
-
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary pull-right">
